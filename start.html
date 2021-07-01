@@ -248,6 +248,11 @@
                     };
                     redraw();
                 } else {
+                    // Call programmers init function if defined
+                    if(isFunction(init)) {
+                        init();
+                    }
+
                     redraw();
                     setInterval(update, updateTime);
                 }
