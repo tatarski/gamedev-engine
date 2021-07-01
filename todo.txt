@@ -1,8 +1,8 @@
 1. Картинки се зареждат on demand - готово, още тестове
 2. Съобщения за грешка при drawImage - готово, още тестове
-3. MouseX и MouseY не се смятат спрямо горния ляв ъгъл на canvas-a а спрямо 0,0 (ако има bootstrap)
+3. MouseX и MouseY не се смятат спрямо горния ляв ъгъл на canvas-a а спрямо 0,0 (ако има bootstrap) - готово
 4. function init
 5. Meta viewport
 6. Поддръжка за игране от телефони
-7. keyCode - deprecated
+7. keyCode - deprecated. code вместо него.
 8. Рефактор на когато няма function draw в game.js, какво да се случва

@@ -1,8 +1,12 @@
-// 1. Suzdavame promenlivi
-let myX = 0,
-    myY = 0;
+// 0. Suzdavame promenlivi
+let myX,
+    myY;
 
-let img = new MyImage("pesho", "red");
+function init() {
+    // 1. Kodut tuk se izpulnqva vednuj - predi draw ili update
+    myX = 300;
+    myY = 300;
+}
 function update() {
     // 2. Kodut tuk se izpulnqva 100 puti v sekunda
     myX = myX + (mouseX - myX) / 10;
@@ -16,11 +20,11 @@ function draw() {
 }
 
 function keyup(key) {
-    // Pechatai koda na natisnatiq klavish
+    // 4. Pechatai koda na natisnatiq klavish
     console.log("Pressed", key);
 }
 
 function mouseup() {
-    // Pri klik - pokaji koordinatite na mishkata
+    // 5. Pri klik s lqv buton - pokaji koordinatite na mishkata
     console.log("Mouse clicked at", mouseX, mouseY);
 }

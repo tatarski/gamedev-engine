@@ -17,7 +17,7 @@
     </meta> <!-- allows for cyrillic and other exotic text in console.logs -->
 </head>
 
-<body onload="init()">
+<body onload="onBodyLoad()">
     <canvas id="canvas-id" width="800" height="600">
         <script>
             // Custom image class - sets imgObj.img.src iff imgObj.draw has been called
@@ -181,10 +181,6 @@
                 setTimeout(callback, 1000 / 30);
             };
 
-        </script>
-        <!-- user's game file -->
-        <script src="game.js"></script>
-        <script>
             // Redraw will be executed many times
             function redraw() {
                 context.clearRect(0, 0, canvas.width, canvas.height);
@@ -198,7 +194,7 @@
                 reqAnimationFrame(redraw);
             };
 
-            function init() {
+            function onBodyLoad() {
                 if ('ontouchstart' in window || navigator.maxTouchPoints) {
                     isMobile = true;
                     window.addEventListener("touchstart", function(e) {
@@ -256,8 +252,9 @@
                     setInterval(update, updateTime);
                 }
             }
-
         </script>
+        <!-- user's game file -->
+        <script src="game.js"></script>
     </canvas>
 </body>
 
