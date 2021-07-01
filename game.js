@@ -2,6 +2,7 @@
 let myX = 0,
     myY = 0;
 
+let img = new MyImage("pesho", "red");
 function update() {
     // 2. Kodut tuk se izpulnqva 100 puti v sekunda
     myX = myX + (mouseX - myX) / 10;
