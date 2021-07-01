@@ -160,6 +160,23 @@
             let key_z = 90;
             let isKeyPressed = new Array(256).fill(0);
 
+            // Used for event handling to detect if function does not exist
+            var update, draw, mouseup, mousemove, mousedown, keyup, keydown;
+
+            function updateMousePosition(e) {
+                let boundingRect = canvas.getBoundingClientRect();
+                mouseX = e.pageX - boundingRect.x;
+                mouseY = e.pageY - boundingRect.y;
+            }
+            function updateMousePositionTouchEvent(e) {
+                let boundingRect = canvas.getBoundingClientRect();
+                let touchobj = e.changedTouches[0];
+                mouseX = touchobj.pageX - boundingRect.x;
+                mouseY = touchobj.pageY - boundingRect.y;
+            }
+            function isFunction(f) {
+                return typeof(f) == "function";
+            }
             const reqAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
                 setTimeout(callback, 1000 / 30);
             };
@@ -185,57 +202,47 @@
                 if ('ontouchstart' in window || navigator.maxTouchPoints) {
                     isMobile = true;
                     window.addEventListener("touchstart", function(e) {
-                        let touchobj = e.changedTouches[0];
-                        mouseX = parseInt(touchobj.pageX - canvas.offsetLeft);
-                        mouseY = parseInt(touchobj.pageY - canvas.offsetTop);
-                        mousedown();
+                        updateMousePositionTouchEvent(e);
+                        if(isFunction(mousedown)){
+                            mousedown();
+                        }
                     });
                     window.addEventListener("touchend", function(e) {
-                        let touchobj = e.changedTouches[0];
-                        mouseX = parseInt(touchobj.pageX - canvas.offsetLeft);
-                        mouseY = parseInt(touchobj.pageY - canvas.offsetTop);
-                        mouseup();
+                        updateMousePositionTouchEvent(e);
+                        if(isFunction(mouseup)) {
+                            mouseup();
+                        }
                     });
                     window.addEventListener("touchmove", function(e) {
-                        let touchobj = e.changedTouches[0];
-                        mouseX = parseInt(touchobj.pageX - canvas.offsetLeft);
-                        mouseY = parseInt(touchobj.pageY - canvas.offsetTop);
+                        updateMousePositionTouchEvent(e);
                     });
                 }
                 window.addEventListener("mousemove", function(e) {
-                    mouseX = e.pageX - canvas.offsetLeft;
-                    mouseY = e.pageY - canvas.offsetTop;
+                    updateMousePosition(e);
                 });
-                if (typeof mousemove != "undefined") {
+                if (isFunction(mousemove)) {
                     window.addEventListener("mousemove", mousemove);
                 }
-                if (typeof mouseup != "undefined") {
+                if (isFunction(mouseup)) {
                     window.addEventListener("mouseup", mouseup);
                 }
-                if (typeof mousedown != "undefined") {
+                if (isFunction(mousedown)) {
                     window.addEventListener("mousedown", mousedown);
                 }
-                if (typeof keydown != "undefined") {
-                    window.addEventListener("keydown", function(e) {
-                        isKeyPressed[e.keyCode] = 1;
+                window.addEventListener("keydown", function(e) {
+                    isKeyPressed[e.keyCode] = 1;
+                    if(isFunction(keydown)) {
                         keydown(e.keyCode);
-                    });
-                } else {
-                    window.addEventListener("keydown", function(e) {
-                        isKeyPressed[e.keyCode] = 1;
-                    });
-                }
-                if (typeof keyup != "undefined") {
-                    window.addEventListener("keyup", function(e) {
-                        isKeyPressed[e.keyCode] = 0;
+                    }
+                });
+                window.addEventListener("keyup", function(e) {
+                    isKeyPressed[e.keyCode] = 0;
+                    if(isFunction(keyup)) {
                         keyup(e.keyCode);
-                    });
-                } else {
-                    window.addEventListener("keyup", function(e) {
-                        isKeyPressed[e.keyCode] = 0;
-                    });
-                }
-                if (typeof draw == "undefined") {
+                    }
+                });
+                if (!isFunction(draw)) {
+                    // TODO: refactor more - this looks bad
                     redraw = function() {
                         context.clearRect(0, 0, canvas.width, canvas.height);
                         context.globalAlpha = 1;
@@ -243,9 +250,11 @@
                         context.font = "20px Arial";
                         context.fillText("Press <F12> for error info!", 40, 40);
                     };
+                    redraw();
+                } else {
+                    redraw();
+                    setInterval(update, updateTime);
                 }
-                redraw();
-                setInterval(update, updateTime);
             }
 
         </script>

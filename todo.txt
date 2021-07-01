@@ -1,43 +1,8 @@
-1. Картинки се зареждат on demand.
-2. Съобщения за грешка при drawImage
-3. MouseX и MouseY не се смятат спрямо горния ляв ъгъл на canvas-a а спрямо този на цялата страница
+1. Картинки се зареждат on demand - готово, още тестове
+2. Съобщения за грешка при drawImage - готово, още тестове
+3. MouseX и MouseY не се смятат спрямо горния ляв ъгъл на canvas-a а спрямо 0,0 (ако има bootstrap)
 4. function init
 5. Meta viewport
 6. Поддръжка за игране от телефони
 7. keyCode - deprecated
-
-
-            // Load images only when needed
-            class MyImage {
-                constructor(src_, backupColor) {
-                    this.src = src_;
-                    this.img = new Image();
-
-                    this.img.canDraw = false;
-                    this.img.drawBackup = false;
-
-                    this.img.onload = ()=>{
-                        this.img.canDraw = true;
-                    }
-                    this.img.onerror = ()=>{
-                        this.img.canDraw = false;
-                        this.img.drawBackup = true;
-                        throw "Unable to load image " + this.src;
-                    }
-                    this.backupColor = backupColor_;
-                    
-                }
-                draw(x,y,xs,ys) {
-                    if(xs == undefined) {
-                        xs = this.img.width | 100;
-                        ys = this.img.height | 100;
-                    }
-                    if(this.canDraw) {
-                        context.drawImage(this.img, x, y, xs, ys);
-                    } else if(this.drawBackup) {
-                        context.fillStyle = this.backupColor;
-                        context.fillRect(x, y, xs, ys);
-                    }
-                }
-            }
-
+8. Рефактор на когато няма function draw в game.js, какво да се случва
