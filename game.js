@@ -1,6 +1,5 @@
 // 0. Suzdavame promenlivi
-let myX,
-    myY;
+let myX, myY;
 
 function init() {
     // 1. Kodut tuk se izpulnqva vednuj - predi draw ili update
@@ -21,7 +20,7 @@ function draw() {
 
 function keyup(key) {
     // 4. Pechatai koda na natisnatiq klavish
-    console.log("Pressed", key);
+    console.log("Pressed", key, String.fromCharCode(key));
 }
 
 function mouseup() {
