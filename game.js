@@ -2,12 +2,13 @@
 let myX, myY;
 
 function init() {
-    // 1. Kodut tuk se izpulnqva vednuj - predi draw ili update
+    // 1. Kodut tuk se izpulnqva vednuj v nachaloto
     myX = 300;
     myY = 300;
 }
+
 function update() {
-    // 2. Kodut tuk se izpulnqva 100 puti v sekunda
+    // 2. Kodut tuk se izpulnqva (okolo) 100 puti v sekunda
     myX = myX + (mouseX - myX) / 10;
     myY = myY + (mouseY - myY) / 10;
 }
