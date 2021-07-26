@@ -21,7 +21,7 @@ function draw() {
 
 function keyup(key) {
     // 4. Pechatai koda na natisnatiq klavish
-    console.log("Pressed", key, String.fromCharCode(key));
+    console.log("Pressed", key);
 }
 
 function mouseup() {

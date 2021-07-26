@@ -4,7 +4,7 @@
 4. function init - готово
 5. Meta viewport
 6. Поддръжка за игране от телефони
-7. keyCode - deprecated. code вместо него.
-8. Рефактор на когато няма function draw в game.js, какво да се случва
-9. Script да не е в Canvas - 
+7. keyCode - deprecated. code вместо него - ок
+8. Рефактор на когато няма function draw в game.js, какво да се случва - ок
+9. Script да не е в Canvas 
 10. Keyup да поддържа ascii кодове като от keyEvent.keyCode - ok e mai
