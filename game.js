@@ -1,5 +1,5 @@
 // Suzdavame promenlivi
-let myX, myY, gosho = [];
+let myX, myY;
 function init() {
     // Kodut tuk se izpulnqva vednuj v nachaloto
     myX = 300;
