@@ -7,9 +7,16 @@
 6. Поддръжка за игране от телефони
 7. keyCode - deprecated. code вместо него - ок.
 8. Рефактор на когато няма function draw в game.js, какво да се случва - ок
-9. Script да не е в Canvas 
+9. Script да не е в Canvas - готово
 10. Keyup да поддържа ascii кодове като от keyEvent.keyCode - ок е и без промяна
-11. Функцията initGlobalVariables
-12. да се махнат TODOTATA
-13. Да се актуализира списъка с картинките
-14. 
+11. Функцията initGlobalVariables - готово
+12. да се махнат TODOTATA - готово
+
+
+13. Да се актуализира списъка с картинките - gotovo
+14. Да се махне номериране на коментарите, новите редове - gotobo
+15. Да се оправи центриране на fillText - gotovo
+16. mouseup да е над keyup - gotovo
+17. index.html да е start.html - gotovo
+18. да се премахне context.fillText("Gosho") - gotovo
+19. 
