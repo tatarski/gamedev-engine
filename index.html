@@ -21,19 +21,20 @@
     <canvas id="canvas-id" width="800" height="600">
         <script>
             // How often will the update function from game.js be executed
-            let updateTime = 10;
+            let updateTime;
 
             // Create global variables
-            let mouseX = 0, mouseY = 0, key_left = 37, key_up = 38, key_right = 39, key_down = 40, key_a = 65, key_z = 90, isKeyPressed = new Array(256).fill(0);
+            let mouseX, mouseY, key_left, key_up, key_right, key_down, key_a, key_z, isKeyPressed;
 
+            // More global variables
             let canvas, context;
 
             // Fullscreen flag
             let endlessCanvas = false;
 
-            // Access to functions created in game.js
+            // Access to functions, created in game.js
             var update, draw, mouseup, mousemove, mousedown, keyup, keydown;
-            
+                        
             const reqAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
                 setTimeout(callback, 1000 / 30);
             };
@@ -85,7 +86,7 @@
             }
 
             // Attach image objects to global scope
-            (function preloadImages() {
+            function preloadImages() {
                 // Load all images from ./images folder
                 const imageNameList = ["arrowDown", "arrowDownLeft", "arrowDownRight", "arrowLeft", "arrowRight", "arrowUp", "arrowUpLeft", "arrowUpRight", "backAlien", "backBeach", "backCactus", "backCake", "backClouds", "backDesert", "backForest", "backGrass", "backHills", "backIndustry", "backMarket", "backMountain", "backMushrooms", "backNight", "backSea", "backSpikes", "backStars", "backSun", "backSunset", "backTower", "backTrees", "backWaterfall", "backWaves", "ballOrTarget", "ballOrTree", "barrelGreen", "barrelGrey", "barrelRed", "bee", "bird", "bomb", "box", "boxAlienGreenSuit", "boxAlienYellowSquare", "boxAlienYellowSuit", "boxItem", "boxItemBoxed", "boxItemDisabled", "boxItemDisabledBoxed", "buildingTile[0]", "buildingTile[10]", "buildingTile[11]", "buildingTile[12]", "buildingTile[13]", "buildingTile[14]", "buildingTile[15]", "buildingTile[16]", "buildingTile[17]", "buildingTile[18]", "buildingTile[19]", "buildingTile[1]", "buildingTile[20]", "buildingTile[21]", "buildingTile[22]", "buildingTile[23]", "buildingTile[24]", "buildingTile[25]", "buildingTile[26]", "buildingTile[27]", "buildingTile[28]", "buildingTile[29]", "buildingTile[2]", "buildingTile[30]", "buildingTile[31]", "buildingTile[32]", "buildingTile[33]", "buildingTile[34]", "buildingTile[35]", "buildingTile[36]", "buildingTile[37]", "buildingTile[38]", "buildingTile[39]", "buildingTile[3]", "buildingTile[40]", "buildingTile[4]", "buildingTile[5]", "buildingTile[6]", "buildingTile[7]", "buildingTile[8]", "buildingTile[9]", "building[0]", "building[1]", "building[2]", "building[3]", "bullet", "burgerBronze", "burgerGold", "burgerSilver", "bush1", "bush2", "cactus", "carBlack", "carBlue", "carBody", "carGreen", "carRed", "carYellow", "cat", "cherry", "cloud", "crosshairBlue", "crosshairOutline", "crystal", "duckOutlineTarget", "duckTarget", "enemyBlack1", "enemyBlack2", "enemyBlack3", "enemyBlack4", "enemyBlack5", "enemyBlue1", "enemyBlue2", "enemyBlue3", "enemyBlue4", "enemyBlue5", "enemyGreen1", "enemyGreen2", "enemyGreen3", "enemyGreen4", "enemyGreen5", "enemyRed1", "enemyRed2", "enemyRed3", "enemyRed4", "enemyRed5", "explosion", "explosion1", "explosion2", "femaleAction", "femaleJump", "femaleStand", "femaleWalk1", "flagBlue1", "flagGreen1", "flagRed1", "flagYellow1", "flagYellow2", "flower1", "flower2", "flower3", "flower4", "flower5", "flowerBlue", "flowerPurple", "flowerRed", "flowerSmall", "flyMan", "gemBlue", "gemGreen", "gemRed", "gemYellow", "gem[0]", "gem[10]", "gem[11]", "gem[12]", "gem[13]", "gem[14]", "gem[15]", "gem[16]", "gem[17]", "gem[18]", "gem[19]", "gem[1]", "gem[20]", "gem[21]", "gem[22]", "gem[23]", "gem[24]", "gem[25]", "gem[26]", "gem[27]", "gem[28]", "gem[29]", "gem[2]", "gem[30]", "gem[31]", "gem[32]", "gem[33]", "gem[34]", "gem[35]", "gem[36]", "gem[37]", "gem[38]", "gem[39]", "gem[3]", "gem[40]", "gem[41]", "gem[42]", "gem[43]", "gem[44]", "gem[45]", "gem[46]", "gem[47]", "gem[4]", "gem[5]", "gem[6]", "gem[7]", "gem[8]", "gem[9]", "grass", "groundCake", "groundGrass", "groundSnow", "groundStone", "gummyWorm", "heart", "heartSmall", "heroHello", "heroStand", "heroWalk", "house[0]", "house[1]", "house[2]", "house[3]", "house[4]", "isoCubeBlue", "isoCubeOrange", "isoCubePurple", "jelly[0]", "jelly[1]", "jelly[2]", "jelly[3]", "jelly[4]", "jelly[5]", "jetpack", "jewelBlue", "jewelGreen", "jewelRed", "jewelYellow", "joystick", "laserBlue[0]", "laserBlue[1]", "laserBlue[2]", "laserGreen[0]", "laserGreen[1]", "laserGreen[2]", "laserRed[0]", "laserRed[1]", "laserRed[2]", "lava", "lollipopFruitYellow", "missile[0]", "missile[1]", "missile[2]", "missile[3]", "missile[4]", "missile[5]", "missile[6]", "missile[7]", "missile[8]", "missile[9]", "motorBlack", "motorBlue", "motorGreen", "motorRed", "motorYellow", "ninja[0]", "ninja[1]", "ninja[2]", "ninja[3]", "ninja[4]", "ninja[5]", "ninja[6]", "ninja[7]", "ninja[8]", "ninja[9]", "note", "paddle", "paddleGhost", "parrot", "pillBlue", "pillGreen", "pillRed", "pillYellow", "pirateHero", "pirate[0]", "pirate[10]", "pirate[11]", "pirate[12]", "pirate[13]", "pirate[14]", "pirate[15]", "pirate[1]", "pirate[2]", "pirate[3]", "pirate[4]", "pirate[5]", "pirate[6]", "pirate[7]", "pirate[8]", "pirate[9]", "plane", "planeGray", "planeGreen", "playerShip1_blue", "playerShip1_green", "playerShip1_orange", "playerShip1_red", "playerShip2_blue", "playerShip2_green", "playerShip2_orange", "playerShip2_red", "playerShip3_blue", "playerShip3_green", "playerShip3_orange", "playerShip3_red", "powerupBlue", "powerupBlueBolt", "powerupBlueShield", "powerupBlueStar", "powerupGreen", "powerupGreenBolt", "powerupGreenShield", "powerupGreenStar", "powerupRed", "powerupRedBolt", "powerupRedShield", "powerupRedStar", "powerupYellow", "powerupYellowBolt", "powerupYellowShield", "powerupYellowStar", "princess[0]", "princess[10]", "princess[11]", "princess[12]", "princess[13]", "princess[14]", "princess[15]", "princess[16]", "princess[17]", "princess[18]", "princess[19]", "princess[1]", "princess[2]", "princess[3]", "princess[4]", "princess[5]", "princess[6]", "princess[7]", "princess[8]", "princess[9]", "repair", "robot", "robotHero[0]", "robotHero[1]", "robotHero[2]", "robotHero[3]", "robotHero[4]", "robotHero[5]", "robotHero[6]", "robotHero[7]", "robotJump", "rock", "rocket[0]", "rocket[1]", "rocket[2]", "rocket[3]", "sailor", "scrollHorizontal", "scrollVertical", "shieldBronze", "shieldGold", "shieldSilver", "shooter", "shop", "sign", "signExit", "signLeft", "signRight", "slabBlue", "slabRed", "slabYellow", "spaceship[0]", "spaceship[1]", "spaceship[2]", "spaceship[3]", "spaceship[4]", "spaceship[5]", "spaceship[6]", "spaceship[7]", "spaceship[8]", "spaceship[9]", "spaceStation[0]", "spaceStation[1]", "spaceStation[2]", "spaceStation[3]", "spikeMan", "spring", "springMan", "sprung", "spy[0]", "spy[1]", "spy[2]", "spy[3]", "spy[4]", "spy[5]", "spy[6]", "spy[7]", "spy[8]", "spy[9]", "star", "starBronze", "starDiamond", "starGold", "starSilver", "sun", "tanksAmmo", "tanksArmor", "tank[0]", "tank[1]", "tank[2]", "tank[3]", "tank[4]", "tank[5]", "tank[6]", "tank[7]", "thunderBronze", "thunderGold", "thunderGray", "torch", "torchOff", "tree[0]", "tree[1]", "tree[2]", "tree[3]", "tree[4]", "troll", "vehicle[0]", "vehicle[10]", "vehicle[11]", "vehicle[12]", "vehicle[13]", "vehicle[14]", "vehicle[15]", "vehicle[1]", "vehicle[2]", "vehicle[3]", "vehicle[4]", "vehicle[5]", "vehicle[6]", "vehicle[7]", "vehicle[8]", "vehicle[9]", "volcano", "zombie", "zombieHello", "zombieWalk"]
                 const imageBackupColorList = ["black", "black", "black", "black", "black", "black", "black", "black", "blue", "blue", "orange", "pink", "blue", "orange", "green", "green", "orange", "blue", "yellow", "green", "yellow", "blue", "blue", "brown", "black", "purple", "brown", "blue", "blue", "blue", "blue", "blue", "green", "green", "gray", "red", "yellow", "brown", "gray", "brown", "green", "yellow", "yellow", "yellow", "yellow", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "green", "brown", "yellow", "gray", "red", "orange", "green", "black", "blue", "red", "green", "red", "yellow", "orange", "orange", "white", "blue", "white", "green", "green", "green", "black", "black", "black", "black", "black", "blue", "blue", "blue", "blue", "blue", "green", "green", "green", "green", "green", "red", "red", "red", "red", "red", "red", "red", "red", "blue", "blue", "blue", "blue", "blue", "green", "red", "yellow", "yellow", "pink", "brown", "yellow", "red", "orange", "blue", "purple", "red", "blue", "orange", "blue", "green", "red", "yellow", "blue", "green", "blue", "green", "blue", "green", "blue", "green", "blue", "green", "blue", "green", "blue", "green", "blue", "green", "blue", "green", "blue", "green", "blue", "green", "blue", "green", "blue", "green", "blue", "green", "blue", "green", "blue", "green", "blue", "green", "blue", "green", "blue", "green", "blue", "green", "blue", "green", "blue", "green", "blue", "green", "blue", "green", "green", "pink", "green", "white", "gray", "pink", "red", "red", "blue", "blue", "blue", "green", "blue", "gray", "brown", "red", "blue", "blue", "blue", "gray", "yellow", "green", "red", "blue", "purple", "gray", "blue", "green", "red", "yellow", "black", "blue", "blue", "blue", "green", "green", "green", "red", "red", "red", "red", "yellow", "red", "blue", "blue", "blue", "blue", "blue", "blue", "red", "red", "red", "black", "blue", "green", "red", "yellow", "purple", "purple", "purple", "purple", "purple", "purple", "purple", "purple", "purple", "purple", "black", "blue", "yellow", "blue", "blue", "green", "red", "yellow", "green", "brown", "brown", "brown", "brown", "brown", "brown", "brown", "brown", "brown", "brown", "brown", "brown", "brown", "brown", "brown", "brown", "green", "gray", "green", "blue", "green", "orange", "red", "blue", "green", "orange", "red", "blue", "green", "orange", "red", "blue", "blue", "blue", "blue", "green", "green", "green", "green", "red", "red", "red", "red", "yellow", "yellow", "yellow", "yellow", "pink", "pink", "pink", "pink", "pink", "pink", "pink", "pink", "pink", "pink", "pink", "pink", "pink", "pink", "pink", "pink", "pink", "pink", "pink", "pink", "blue", "blue", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "blue", "gray", "red", "red", "red", "red", "red", "black", "black", "brown", "yellow", "gray", "brown", "red", "brown", "brown", "brown", "brown", "blue", "blue", "blue", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "blue", "yellow", "blue", "yellow", "red", "orange", "orange", "orange", "black", "black", "black", "black", "black", "black", "black", "black", "black", "black", "yellow", "brown", "blue", "yellow", "gray", "yellow", "black", "red", "gray", "gray", "green", "green", "red", "red", "black", "black", "brown", "yellow", "gray", "red", "brown", "orange", "red", "yellow", "green", "brown", "green", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "black", "green", "green", "green"];
@@ -108,7 +109,7 @@
                         window[name] = tryToLoad(name, backupColor);
                     }
                 }
-            }());
+            }
 
             function areColliding(Ax, Ay, Awidth, Aheight, Bx, By, Bwidth, Bheight) {
                 if (Bx <= Ax + Awidth) {
@@ -163,19 +164,6 @@
                 mouseX = touchobj.pageX - boundingRect.x;
                 mouseY = touchobj.pageY - boundingRect.y;
             }
-
-            // Redraw will be executed many times
-            function redraw() {
-                context.clearRect(0, 0, canvas.width, canvas.height);
-
-                // Call draw function from game.js
-                draw();
-                context.globalAlpha = 1;
-                context.font = "10px Arial";
-
-                // This will call redraw after some time
-                reqAnimationFrame(redraw);
-            };
 
             function getCanvas() {
                 // Get canvas element
@@ -254,23 +242,55 @@
                     }
                 });
             }
+            // Redraw will be executed many times
+            function redraw() {
+                // Clear the canvas
+                context.clearRect(0, 0, canvas.width, canvas.height);
 
+                // TODO: premesti v init
+                context.globalAlpha = 1;
+                context.font = "10px Arial";
+                context.fillStyle = "blue";
+
+                // Call draw function from game.js
+                draw();
+
+                
+                // Call redraw after some time (the browser decides this time)
+                reqAnimationFrame(redraw);
+            };
+
+            function initGlobalVariables() {
+                updateTime = 10;
+                mouseX = 0;
+                mouseX = 0;
+                mouseY = 0; 
+                key_left = 37; 
+                key_up = 38; 
+                key_right = 39; 
+                key_down = 40; 
+                key_a = 65; 
+                key_z = 90; 
+                isKeyPressed = new Array(256).fill(0);
+            }
             // Starts game when body element is loaded
             function onBodyLoad() {
+
+                initGlobalVariables();
+
+                preloadImages();
+                
                 getCanvas();
 
                 attachEvents();
 
                 if (!isFunction(draw)) {
                     // Draw error on canvas when function draw is not present in game.js
-                    drawError = function() {
-                        context.clearRect(0, 0, canvas.width, canvas.height);
-                        context.globalAlpha = 1;
-                        context.fillStyle = "#FF0000";
-                        context.font = "20px Arial";
-                        context.fillText("Press <F12> for error info!", 40, 40);
-                    };
-                    drawError();
+                    context.clearRect(0, 0, canvas.width, canvas.height);
+                    context.globalAlpha = 1;
+                    context.fillStyle = "#FF0000";
+                    context.font = "20px Arial";
+                    context.fillText("Press <F12> for error info!", 40, 40);
                 } else {
                     // Call programmers init function if it exists in game.js
                     if(isFunction(init)) {
