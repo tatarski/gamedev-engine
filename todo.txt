@@ -20,3 +20,6 @@
 17. index.html да е start.html - gotovo
 18. да се премахне context.fillText("Gosho") - gotovo
 19. 
+
+20. lag при зарежддане на default картинки.
+21. цветовете нха картинките
