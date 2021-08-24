@@ -33,7 +33,7 @@
             let endlessCanvas = false;
 
             // Access to functions, created in game.js
-            var update, draw, mouseup, mousemove, mousedown, keyup, keydown;
+            var update, draw, mouseup, mousemove, mousedown, keyup, keydown, init;
                         
             const reqAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
                 setTimeout(callback, 1000 / 30);
@@ -273,6 +273,14 @@
                 key_z = 90; 
                 isKeyPressed = new Array(256).fill(0);
             }
+            function drawError() {
+                // Draw error text on canvas 
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.globalAlpha = 1;
+                context.fillStyle = "#FF0000";
+                context.font = "20px Arial";
+                context.fillText("Press <F12> for error info!", 40, 40);
+            }
             // Starts game when body element is loaded
             function onBodyLoad() {
 
@@ -283,21 +291,23 @@
                 attachEvents();
 
                 if (!isFunction(draw)) {
-                    // Draw error on canvas when function draw is not present in game.js
-                    context.clearRect(0, 0, canvas.width, canvas.height);
-                    context.globalAlpha = 1;
-                    context.fillStyle = "#FF0000";
-                    context.font = "20px Arial";
-                    context.fillText("Press <F12> for error info!", 40, 40);
-                } else {
-                    // Call programmers init function if it exists in game.js
-                    if(isFunction(init)) {
-                        init();
-                    }
-
-                    redraw();
-                    setInterval(update, updateTime);
+                    // Draw error on canvas when function draw is not in game.js
+                    drawError();
+                    throw new TypeError("draw is not a function (in game.js)");
                 }
+
+                // Call programmers init function if it exists in game.js
+                if(isFunction(init)) {
+                    init();
+                }
+
+                if(!isFunction(update)) {
+                    // Draw error on canvas when function update is not in game.js
+                    drawError();
+                    throw new TypeError("update is not a function (in game.js)");
+                }
+                redraw();
+                setInterval(update, updateTime);
             }
         </script>
         <!-- user's game file -->
