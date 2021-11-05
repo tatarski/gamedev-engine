@@ -12,7 +12,7 @@ function update() {
 }
 function draw() {
     // Tuk naprogramirai kakvo da se risuva
-    drawImage(backDesert, 0, 0, 800, 600);
+    drawImage(backField, 0, 0, 800, 600);
     drawImage(femaleAction, myX, myY, 60, 80);
 }
 function mouseup() {
