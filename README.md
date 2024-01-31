@@ -11,8 +11,6 @@ arrowDown.png;arrowDownLeft.png;arrowDownRight.png;arrowLeft.png;arrowRight.png;
 
 </details>
 
-### Images have intentionally been omitted.
-
 ### Designed to be compact, configurable and easy to understand and work with.
 
 # Available links: tiny.cc/kodami
